@@ -1,0 +1,178 @@
+/*
+	Se quiere manejar el señalar el nivel de temperatura con 
+    el encendido y apagado de los leds.
+	Cuando la temperatura este entre -40 y 0 se encendera
+    el led blanco y en el display se mostrara el nivel 1,
+    cuando la temperatura este entre 1 y 42 se encendera solo el led azul
+    y se mostrara en el display el nivel 2,
+    cuando la temperatura este entre 43 y 84 se encendera solo el led amarillo
+    y se mostrara en el display el nivel 3,
+    cuando la temperatura este entre 85 y 124 se encendera solo el led naranaja
+    y se mostrara en el display el nivel 4 y
+    cuando la temperatura sea 125 se encendera solo el led rojo
+    y se mostrara en el display el nivel 5.
+    Nota: se valorara el uso de funciones propias.
+*/
+
+#define SENSOR A0
+
+#define LED_BLANCO 13
+#define LED_AZUL 12
+#define LED_AMARILLO 11
+#define LED_NARANJA 10
+#define LED_ROJO 9
+
+#define LED_G 2
+#define LED_F 3
+#define LED_E 4
+#define LED_D 5
+#define LED_C 6
+#define LED_B 7
+#define LED_A 8
+
+int temperatura;
+int lecturaSensor;
+
+void setup()
+{
+  pinMode(LED_BLANCO, OUTPUT);
+  pinMode(LED_AZUL, OUTPUT);
+  pinMode(LED_AMARILLO, OUTPUT);
+  pinMode(LED_NARANJA, OUTPUT);
+  pinMode(LED_ROJO, OUTPUT);
+  
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_F, OUTPUT);
+  pinMode(LED_E, OUTPUT);
+  pinMode(LED_D, OUTPUT);
+  pinMode(LED_C, OUTPUT);
+  pinMode(LED_B, OUTPUT);
+  pinMode(LED_A, OUTPUT);
+  
+  Serial.begin(9600);
+}
+
+
+
+void loop()
+{
+	lecturaSensor = analogRead(SENSOR);
+  	
+	temperatura = map(lecturaSensor,20,358,-40,125);
+	
+  	if(temperatura >= -40 && temperatura <= 0)
+  	{
+  		digitalWrite(LED_BLANCO, HIGH);
+      	temp_nivel_uno(LED_BLANCO, 1000);
+      	digitalWrite(LED_BLANCO, LOW);
+  	}
+  	else
+  	{
+      digitalWrite(LED_BLANCO, LOW);
+  	}
+  
+  	if(temperatura >= 1 && temperatura <= 42)
+    {
+    	digitalWrite(LED_AZUL, HIGH);
+      	temp_nivel_dos(LED_AZUL, 1000);
+    }
+  	else
+    {
+    	digitalWrite(LED_AZUL, LOW);
+    }
+  
+  	if(temperatura >= 43 && temperatura <= 84)
+  	{
+  		digitalWrite(LED_AMARILLO, HIGH);
+      	temp_nivel_tres(LED_AMARILLO, 1000);
+  	}
+  	else
+    {
+    	digitalWrite(LED_AMARILLO, LOW);
+    }
+  
+  	if(temperatura >= 85 && temperatura <= 124)
+  	{
+  		digitalWrite(LED_NARANJA, HIGH);
+      	temp_nivel_cuatro(LED_NARANJA, 1000);
+  	}
+  	else
+    {
+    	digitalWrite(LED_NARANJA, LOW);
+    }
+  
+    if(temperatura >= 125)
+    {
+		digitalWrite(LED_ROJO, HIGH);
+      	temp_nivel_cinco(LED_ROJO, 1000);
+    }
+    else
+    {
+      digitalWrite(LED_ROJO, LOW);
+    }
+  
+  
+  	Serial.println(temperatura);
+  
+  
+}
+
+void temp_nivel_uno(int led, int tiempo)
+{
+	digitalWrite(LED_C, HIGH);
+  	digitalWrite(LED_B, HIGH);	
+  
+  	digitalWrite(LED_A, LOW);
+  	digitalWrite(LED_G, LOW);
+	digitalWrite(LED_E, LOW);
+  	digitalWrite(LED_D, LOW);
+  
+  	digitalWrite(LED_F, LOW);
+}
+
+void temp_nivel_dos(int led, int tiempo)
+{
+	digitalWrite(LED_A, HIGH);
+  	digitalWrite(LED_B, HIGH);
+  	digitalWrite(LED_G, HIGH);
+	digitalWrite(LED_E, HIGH);
+  	digitalWrite(LED_D, HIGH);
+  	
+  	digitalWrite(LED_C, LOW);
+}
+
+void temp_nivel_tres(int led, int tiempo)
+{
+	digitalWrite(LED_A, HIGH);
+  	digitalWrite(LED_B, HIGH);
+  	digitalWrite(LED_G, HIGH);
+  	digitalWrite(LED_C, HIGH);
+  	digitalWrite(LED_D, HIGH);
+	
+  	digitalWrite(LED_E, LOW);
+  	digitalWrite(LED_F, LOW);
+}
+
+void temp_nivel_cuatro(int led, int tiempo)
+{
+  	digitalWrite(LED_F, HIGH);
+  	digitalWrite(LED_G, HIGH);
+  	digitalWrite(LED_B, HIGH);
+  	digitalWrite(LED_C, HIGH);
+  
+  	digitalWrite(LED_A, LOW);
+  	digitalWrite(LED_D, LOW);
+  
+}
+
+void temp_nivel_cinco(int led, int tiempo)
+{
+	digitalWrite(LED_A, HIGH);
+  	digitalWrite(LED_F, HIGH);
+  	digitalWrite(LED_G, HIGH);
+  	digitalWrite(LED_C, HIGH);
+  	digitalWrite(LED_D, HIGH);
+  
+  	digitalWrite(LED_B, LOW);
+
+}
